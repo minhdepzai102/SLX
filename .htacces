@@ -1,0 +1,11 @@
+RewriteEngine On
+
+# Nếu yêu cầu không phải là một thư mục
+RewriteCond %{REQUEST_FILENAME} !-d
+# Nếu yêu cầu không phải là một tập tin
+RewriteCond %{REQUEST_FILENAME} !-f
+# Nếu yêu cầu không phải là một liên kết biểu tượng
+RewriteCond %{REQUEST_FILENAME} !-l
+
+# Rewrite tất cả các yêu cầu đến index.php với tham số url
+RewriteRule ^(.+)$ index.php?url=$1 [L,QSA]

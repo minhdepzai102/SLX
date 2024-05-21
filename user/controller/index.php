@@ -1,4 +1,6 @@
+
 <?php
+
 // Sử dụng Output Buffering để tránh lỗi "headers already sent"
 ob_start(); // Bắt đầu bộ đệm đầu ra
 
