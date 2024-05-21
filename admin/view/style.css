@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Phần tiêu đề (header) */
+header {
+    background-color: #333; /* Màu nền tối */
+    color: #fff; /* Chữ trắng */
+    padding: 10px 20px; /* Thêm khoảng cách */
+    display: flex; /* Sử dụng flexbox */
+    justify-content: space-between; /* Phân bổ không gian giữa các phần tử */
+    align-items: center; /* Căn chỉnh theo chiều ngang */
+}
+
+header h2 {
+    margin: 0; /* Xóa khoảng cách thừa */
+}
+
+header nav {
+    display: flex; /* Sử dụng flexbox */
+    gap: 15px; /* Khoảng cách giữa các liên kết */
+}
+
+header nav a {
+    color: #fff; /* Liên kết màu trắng */
+    text-decoration: none; /* Loại bỏ gạch chân */
+    transition: color 0.3s; /* Hiệu ứng chuyển tiếp khi di chuột */
+}
+
+header nav a:hover {
+    color: #f39c12; /* Thay đổi màu khi di chuột qua liên kết */
+}
+
+/* Phần nội dung chính (main) */
+.main {
+    padding: 20px; /* Thêm khoảng cách quanh nội dung chính */
+}
+
+.main h2 {
+    font-weight: 600; /* Độ đậm cho tiêu đề */
+}
+
+.main form {
+    display: flex; /* Sử dụng flexbox để căn chỉnh các phần tử trong biểu mẫu */
+    gap: 10px; /* Khoảng cách giữa các phần tử */
+}
+
+.main input[type="text"] {
+    padding: 8px; /* Thêm khoảng cách bên trong */
+    border: 1px solid #ccc; /* Viền nhạt */
+    border-radius: 4px; /* Bo viền */
+    flex-grow: 1; /* Cho phép mở rộng theo khoảng cách có sẵn */
+}
+
+.main input[type="submit"] {
+    padding: 8px 16px; /* Thêm khoảng cách cho nút */
+    border: none; /* Loại bỏ viền */
+    border-radius: 4px; /* Bo viền */
+    background-color: #333; /* Màu nền */
+    color: white; /* Màu chữ */
+    cursor: pointer; /* Hiển thị trỏ chuột */
+    transition: background-color 0.3s; /* Hiệu ứng khi di chuột */
+}
+
+.main input[type="submit"]:hover {
+    background-color: #555; /* Màu khi di chuột */
+}
+
+.main table {
+    width: 100%; /* Chiều rộng toàn phần */
+    border-collapse: collapse; /* Loại bỏ khoảng cách giữa các ô */
+    margin-top: 20px; /* Khoảng cách phía trên bảng */
+}
+
+.main table th,
+.main table td {
+    border: 1px solid #ccc; /* Viền giữa các ô */
+    padding: 10px; /* Khoảng cách bên trong ô */
+    text-align: center; /* Căn giữa nội dung */
+}
+
+.main table th {
+    background-color: #f5f5f5; /* Màu nền cho tiêu đề bảng */
+    font-weight: 600; /* Độ đậm cho tiêu đề bảng */
+}
+
+.main table tr:nth-child(even) {
+    background-color: #f9f9f9; /* Màu xen kẽ cho các hàng chẵn */
+}
+
+.main table tr:nth-child(odd) {
+    background-color: white; /* Màu xen kẽ cho các hàng lẻ */
+}
+
+/* Phần chân trang (footer) */
+footer {
+    background-color: #333; /* Màu nền tối */
+    color: #fff; /* Chữ trắng */
+    text-align: center; /* Căn giữa nội dung */
+    padding: 10px; /* Thêm khoảng cách */
+    position: fixed; /* Giữ chân trang ở đáy */
+    bottom: 0; /* Căn chỉnh với đáy trang */
+    width: 100%; /* Chân trang bao phủ toàn bộ chiều rộng */
+}
+
+body {
+    padding-bottom: 40px; /* Tạo không gian cho chân trang */
+}
+

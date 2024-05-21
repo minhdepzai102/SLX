@@ -1,0 +1,24 @@
+/*
+Custom Css
+*/
+.form-payment {
+    padding: 20px;
+    background-color: #f8f9fa; /* Màu nền */
+    border-radius: 10px; /* Bo góc */
+}
+
+.form-group {
+    margin-bottom: 20px; /* Khoảng cách giữa các trường */
+}
+
+.btn-block {
+    width: 100%; /* Nút chiếm toàn bộ chiều rộng */
+}
+
+.btn-lg {
+    padding: 10px 20px; /* Kích thước nút lớn */
+}
+.rounded-img {
+    width: 300px; /* Điều chỉnh kích thước theo ý muốn */
+    height: 300px; /* Điều chỉnh kích thước theo ý muốn */
+  }
