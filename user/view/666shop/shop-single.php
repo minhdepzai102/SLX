@@ -3,7 +3,7 @@ try {
     $conn = connectdb();
     // Thiết lập chế độ lỗi để hiển thị các exception
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch(PDOException $e) {
+} catch (PDOException $e) {
     die("Kết nối thất bại: " . $e->getMessage());
 }
 
@@ -15,13 +15,25 @@ try {
     $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
     $stmt->execute();
     $product = $stmt->fetch(PDO::FETCH_ASSOC);
-} catch(PDOException $e) {
+} catch (PDOException $e) {
     die("Lỗi truy vấn: " . $e->getMessage());
+}
+if ($product) {
+    // Tăng số lượt xem của sản phẩm lên 1
+    try {
+        $updateStmt = $conn->prepare("UPDATE tbl_sanpham SET view = view + 1 WHERE id = :product_id");
+        $updateStmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
+        $updateStmt->execute();
+    } catch (PDOException $e) {
+        // Xử lý nếu có lỗi khi cập nhật số lượt xem
+        echo "Lỗi cập nhật số lượt xem: " . $e->getMessage();
+    }
 }
 ?>
 
 <!-- Modal -->
-<div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade bg-white" id="templatemo_search" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="w-100 pt-1 mb-5 text-right">
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -61,6 +73,7 @@ try {
                                     <p class="text-muted"><strong>' . htmlspecialchars($product['thuonghieu'], ENT_QUOTES, 'UTF-8') . '</strong></p>
                                 </li>
                             </ul>
+                           
                             <h6>Description:</h6>
                             <p>' . htmlspecialchars($product['mota'], ENT_QUOTES, 'UTF-8') . '</p>
                             <form action="index.php?act=addcart" method="post">
@@ -69,6 +82,15 @@ try {
                                 <input type="hidden" name="product_image" value="' . htmlspecialchars($product['img'], ENT_QUOTES, 'UTF-8') . '">
                                 <input type="hidden" name="product_price" value="' . htmlspecialchars($product['gia'], ENT_QUOTES, 'UTF-8') . '">
                                 <input type="hidden" name="product_quantity" value="1"> <!-- Số lượng mặc định là 1 -->
+                                <div class="col-auto">
+                                <ul class="list-inline pb-3">
+                                    <li class="list-inline-item">Capacity: 
+                                        <input type="hidden" name="product-size" id="product-size" value="S">
+                                    </li>
+                                    <li class="list-inline-item"><span class="btn btn-success btn-size">' . $product['dungtich'] . '</span></li>
+                                </ul>
+                       </div>
+                       
                                 <div class="row pb-3">
                                     
                                     
@@ -105,26 +127,26 @@ try {
             slidesToScroll: 3,
             dots: true,
             responsive: [{
-                    breakpoint: 1024,
-                    settings: {
-                        slidesToShow: 3,
-                        slidesToScroll: 3
-                    }
-                },
-                {
-                    breakpoint: 600,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 3
-                    }
-                },
-                {
-                    breakpoint: 480,
-                    settings: {
-                        slidesToShow: 2,
-                        slidesToScroll: 3
-                    }
+                breakpoint: 1024,
+                settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 3
                 }
+            },
+            {
+                breakpoint: 600,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 3
+                }
+            },
+            {
+                breakpoint: 480,
+                settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 3
+                }
+            }
             ]
         });
 
@@ -146,4 +168,3 @@ try {
         });
     </script>
     <!-- End Slider Script -->
-

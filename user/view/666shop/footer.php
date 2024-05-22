@@ -23,8 +23,8 @@
             <div class="col-md-4 pt-5">
                 <h2 class="h2 text-light border-bottom pb-3 border-light">Products</h2>
                 <ul class="list-unstyled text-light footer-link-list">
-                    <?php $count = 0; ?>
-                    <?php foreach ($categories as $category): ?>
+                    <?php $count = 0; 
+                    foreach ($categories as $category): ?>
                         <?php if ($count < 7): ?>
                             <li><a class="text-decoration-none"
                                     href="index.php?act=shop&id=<?php echo $category['id']; ?>"><?php echo $category['tendm']; ?></a>
