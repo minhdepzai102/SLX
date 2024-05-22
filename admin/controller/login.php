@@ -15,7 +15,6 @@ $signup_error = ""; // Biến báo lỗi cho đăng ký
 if ((isset($_POST['Login'])) && ($_POST['Login'])) {
     $user = trim($_POST['user']); // Tên người dùng
     $pass = trim($_POST['pass']); // Mật khẩu
-  
     $conn = connectdb(); // Kết nối cơ sở dữ liệu
     
     if ($conn) { // Kiểm tra nếu kết nối thành công
@@ -27,8 +26,8 @@ if ((isset($_POST['Login'])) && ($_POST['Login'])) {
             header('Location: index.php'); // Chuyển hướng đến trang admin
             exit; // Đảm bảo mã dừng sau khi chuyển hướng
         } else if($role == 0){
-          header ('Location: ../../user/web/index.php');
-          exit;
+            header ('Location: ../../user/web/index.php');
+            exit;
         }
         else {
             $login_error = "Username or password incorrect"; // Thông báo lỗi đăng nhập
@@ -52,6 +51,8 @@ if ((isset($_POST['Signup'])) && ($_POST['Signup'])) {
         $signup_error = "Vui lòng điền tất cả các trường.";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $signup_error = "Email không hợp lệ.";
+    } elseif (strlen($password) <= 6) {
+        $signup_error = "Mật khẩu phải có hơn 6 ký tự.";
     } else {
         $conn = connectdb(); // Kết nối cơ sở dữ liệu
     
@@ -64,7 +65,7 @@ if ((isset($_POST['Signup'])) && ($_POST['Signup'])) {
                 $signup_error = "Tên người dùng hoặc email đã tồn tại."; // Thông báo lỗi trùng lặp
             } else {
                 // Băm mật khẩu
-                $hashed_pass = password_hash($password, PASSWORD_BCRYPT); // Mã hóa mật khẩu bằng md5
+                $hashed_pass = password_hash($password, PASSWORD_BCRYPT); // Mã hóa mật khẩu
 
                 $stmt = $conn->prepare("INSERT INTO tbl_users (user, email, pass) VALUES (?, ?, ?)");
                 $stmt->execute([$username, $email, $hashed_pass]); // Chèn người dùng mới
@@ -84,8 +85,6 @@ if ((isset($_POST['Signup'])) && ($_POST['Signup'])) {
 
 ob_end_flush(); // Kết thúc bộ đệm đầu ra
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -114,7 +113,7 @@ ob_end_flush(); // Kết thúc bộ đệm đầu ra
         </div>
         <?php
         if (!empty($login_error)) { // Hiển thị thông báo lỗi đăng nhập
-            echo "<span style='color: red; display: block; margin-bottom: 5px;'>" . $login_error . "</span>";
+            echo "<span class='error-message' style='color: red; display: block; margin-bottom: 5px;'>" . $login_error . "</span>";
         }
         ?>
         <input type="submit" name="Login" value="Login" class="btnLogin">
@@ -145,9 +144,10 @@ ob_end_flush(); // Kết thúc bộ đệm đầu ra
         </div>
         <?php
         if (!empty($signup_error)) { // Hiển thị thông báo lỗi đăng ký
-            echo "<span style='color: red; display: block; margin-bottom: 5px;'>" . $signup_error . "</span>";
+            echo "<span class='error-message' style='color: red; display: block; margin-bottom: 5px;'>" . $signup_error . "</span>";
         }
         ?>
+        <span class="password-error" style="color: red; display: block; margin-bottom: 5px;"></span>
         <input type="submit" name="Signup" value="Signup" class="btnLogin">
         <div class="signUp-link">
           <p>Already have an account? <a href="login.php" class="signInBtn-link">Sign In</a></p>
@@ -158,14 +158,44 @@ ob_end_flush(); // Kết thúc bộ đệm đầu ra
 
   <!-- JavaScript để chuyển đổi giữa đăng nhập và đăng ký -->
   <script>
-    const signInBtnLink = document.querySelector('.signInBtn-link');
-    const signUpBtnLink = document.querySelector('.signUpBtn-link');
-    const wrapper = document.querySelector('.wrapper');
-    signUpBtnLink.addEventListener('click', () => {
-        wrapper.classList.toggle('active');
-    });
-    signInBtnLink.addEventListener('click', () => {
-        wrapper.classList.toggle('active');
+    document.addEventListener('DOMContentLoaded', function() {
+        const signInBtnLink = document.querySelector('.signInBtn-link');
+        const signUpBtnLink = document.querySelector('.signUpBtn-link');
+        const wrapper = document.querySelector('.wrapper');
+
+        signUpBtnLink.addEventListener('click', () => {
+            wrapper.classList.toggle('active');
+        });
+
+        signInBtnLink.addEventListener('click', () => {
+            wrapper.classList.toggle('active');
+        });
+
+        // JavaScript validation for password length
+        const signupForm = document.querySelector('.sign-up form');
+        signupForm.addEventListener('submit', function(event) {
+            const passwordInput = signupForm.querySelector('input[name="pass"]');
+            const passwordErrorSpan = signupForm.querySelector('.password-error');
+            const password = passwordInput.value;
+
+            if (password.length <= 6) {
+                event.preventDefault(); // Prevent form submission
+                passwordErrorSpan.textContent = 'Mật khẩu phải có hơn 6 ký tự.'; // Show error message
+                passwordInput.focus(); // Focus the password input
+            } else {
+                passwordErrorSpan.textContent = ''; // Clear the error message if valid
+            }
+        });
+
+        // Hide error messages after 5 seconds
+        const errorMessages = document.querySelectorAll('.error-message');
+        if (errorMessages) {
+            setTimeout(() => {
+                errorMessages.forEach(msg => {
+                    msg.style.display = 'none';
+                });
+            }, 3500);
+        }
     });
   </script>
 </body>
